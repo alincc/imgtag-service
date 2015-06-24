@@ -1,0 +1,6 @@
+{
+  "generator-spring-microservice": {
+    "packageName": "no.nb.microservices.imgtag",
+    "packageFolder": "no/nb/microservices/imgtag"
+  }
+}
