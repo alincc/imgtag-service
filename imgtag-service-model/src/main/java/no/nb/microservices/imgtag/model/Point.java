@@ -2,7 +2,6 @@ package no.nb.microservices.imgtag.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
@@ -17,7 +16,9 @@ public class Point {
     private int x;
     private int y;
 
-    public Point() {}
+    public Point() {
+
+    }
 
     public Point(String description, int pgid, int x, int y) {
         this.description = description;

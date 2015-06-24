@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.lang.String;import java.util.Date;
+import java.util.Date;
 
 /**
  * Created by Andreas Bjørnådal (andreasb) on 19.08.14.
@@ -19,7 +19,9 @@ public class Person {
     private Date dob;
     private Date dod;
 
-    public Person() {}
+    public Person() {
+
+    }
 
     public Person(String firstname, String surname, String role, Date dob, Date dod) {
         this.firstname = firstname;

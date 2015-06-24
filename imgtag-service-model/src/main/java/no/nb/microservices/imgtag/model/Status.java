@@ -19,7 +19,7 @@ public class Status {
     private String displayName;
 
     @Indexed
-    private String status;
+    private String name;
 
     private String comment;
     private Date date;
@@ -27,16 +27,16 @@ public class Status {
     public Status() {
     }
 
-    public Status(String status, String comment) {
-        this.status = status;
+    public Status(String name, String comment) {
+        this.name = name;
         this.comment = comment;
         this.date = new Date();
     }
 
-    public Status(String userId, String displayName, String status, String comment) {
+    public Status(String userId, String displayName, String name, String comment) {
         this.userId = userId;
         this.displayName = displayName;
-        this.status = status;
+        this.name = name;
         this.comment = comment;
         this.date = new Date();
     }
@@ -57,11 +57,11 @@ public class Status {
         this.displayName = displayName;
     }
 
-    public String getStatus() {
-        return status;
+    public String getName() {
+        return name;
     }
-    public void setStatus(String status) {
-        this.status = status;
+    public void setName(String name) {
+        this.name = name;
     }
     public String getComment() {
         return comment;

@@ -22,13 +22,12 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriTemplate;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.lang.Boolean;import java.lang.Exception;import java.lang.String;import java.lang.Void;import java.util.ArrayList;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.UUID;
@@ -84,10 +83,10 @@ public class ImgTagController {
             query = query.and(t.userId.eq(user));
         }
         if (nbUserService.getNBUser() == null || !nbUserService.getNBUser().getAuthorities().contains(new SimpleGrantedAuthority(ADMIN_ROLE))) {
-            query = query.and(t.status.status.eq("approved"));
+            query = query.and(t.status.name.eq("approved"));
         }
         else if (StringUtils.isNotBlank(status)) {
-            query = query.and(t.status.status.eq(status));
+            query = query.and(t.status.name.eq(status));
         }
         if (reported != null) {
             query = query.and(t.reported.eq(reported));
@@ -112,7 +111,7 @@ public class ImgTagController {
 
         if (imgTag != null) {
             if (!nbUserService.getNBUser().getAuthorities().contains(new SimpleGrantedAuthority(ADMIN_ROLE))) {
-                if (!imgTag.getStatus().getStatus().equals("approved")) {
+                if (!imgTag.getStatus().getName().equals("approved")) {
                     return new ResponseEntity<ImgTag>(HttpStatus.FORBIDDEN);
                 }
 
@@ -161,7 +160,7 @@ public class ImgTagController {
         }
 
         if (imgTag.getStatus() != null) {
-            if (!imgTag.getStatus().getStatus().equalsIgnoreCase("deleted")) {
+            if (!imgTag.getStatus().getName().equalsIgnoreCase("deleted")) {
                 return new ResponseEntity<ImgTag>(HttpStatus.BAD_REQUEST);
             }
 
@@ -188,7 +187,7 @@ public class ImgTagController {
         NBUserDetails user = nbUserService.getNBUser();
 
         // Checks if the tag exists or is already deleted
-        if (imgTag == null || (imgTag.getStatus() != null && imgTag.getStatus().getStatus().equals("deleted"))) {
+        if (imgTag == null || (imgTag.getStatus() != null && imgTag.getStatus().getName().equals("deleted"))) {
             return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
         }
 

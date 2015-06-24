@@ -2,7 +2,7 @@ package no.nb.microservices.imgtag.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import org.springframework.data.mongodb.core.mapping.Document;import java.lang.String;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
  * Created by Andreas Bjørnådal (andreasb) on 19.08.14.
@@ -13,7 +13,9 @@ import org.springframework.data.mongodb.core.mapping.Document;import java.lang.S
 public class Place {
     private String name;
 
-    public Place() {}
+    public Place() {
+
+    }
 
     public Place(String name) {
         this.name = name;
