@@ -33,6 +33,13 @@ public class Status {
         this.date = new Date();
     }
 
+    public Status(String userId, String displayName, String name) {
+        this.userId = userId;
+        this.displayName = displayName;
+        this.name = name;
+        this.date = new Date();
+    }
+
     public Status(String userId, String displayName, String name, String comment) {
         this.userId = userId;
         this.displayName = displayName;

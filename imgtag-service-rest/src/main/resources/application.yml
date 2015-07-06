@@ -10,7 +10,7 @@ endpoints:
     enabled: true
 
 server:
-  port: 0
+  port: 8050
 
 spring: 
   data:
@@ -25,6 +25,10 @@ eureka:
   client:
     serviceUrl:
       defaultZone: http://localhost:8761/eureka/
+
+microservice:
+  nbsokContentUrl: http://www.nb.no/nbsok/nb/{sesamid}
+  fotoContentUrl: http://www.nb.no/foto/nb/{sesamid}
 
 ---
 spring:

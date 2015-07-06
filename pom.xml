@@ -23,6 +23,7 @@
     <modules>
         <module>imgtag-service-model</module>
         <module>imgtag-service-rest</module>
+        <module>imgtag-service-it</module>
     </modules>
 
     <scm>

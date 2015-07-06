@@ -1,1 +1,0 @@
-package no.nb.microservices.imgtag.rest.assembler;

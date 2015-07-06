@@ -10,29 +10,21 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document
 @JsonIgnoreProperties
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Point {
-    private String description;
+public class PointPosition {
     private int pgid;
     private int x;
     private int y;
 
-    public Point() {
+    public PointPosition() {
 
     }
 
-    public Point(String description, int pgid, int x, int y) {
-        this.description = description;
+    public PointPosition(int pgid, int x, int y) {
         this.pgid = pgid;
         this.x = x;
         this.y = y;
     }
 
-    public String getDescription() {
-        return description;
-    }
-    public void setDescription(String description) {
-        this.description = description;
-    }
     public int getPgid() {
         return pgid;
     }

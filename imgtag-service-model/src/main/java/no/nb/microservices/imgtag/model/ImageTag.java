@@ -7,12 +7,10 @@ import org.apache.commons.lang.builder.ToStringStyle;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.hateoas.ResourceSupport;
 
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Date;
@@ -25,16 +23,12 @@ import java.util.List;
 @Document(collection = "ImgTag")
 @JsonPropertyOrder({ "id" })
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonIgnoreProperties
+@JsonIgnoreProperties(ignoreUnknown = true)
 @QueryEntity
-public class ImgTag extends ResourceSupport {
+public class ImageTag extends ResourceSupport {
 
     @Id
     private String id;
-
-    private String userId;
-    private String userDisplayName;
-    private String userEmail;
 
     @Indexed
     @NotEmpty
@@ -42,36 +36,24 @@ public class ImgTag extends ResourceSupport {
     @Pattern(regexp = "URN:NBN:no-nb_.*")
     private String urn;
 
-    @NotEmpty
-    @Length(min = 32, max = 32)
-    private String sesamId;
+    private String userId;
+    private String userDisplayName;
+    private String userEmail;
 
-    @Transient
-    @Length(max = 160)
-    private String title;
+    private Date dateCreated;
+    private Date dateModified;
 
-    @NotEmpty
-    @Length(max = 30)
     private String type;
-
-    private Date date;
 
     @Length(max = 300)
     private String comment;
 
     private Status status;
-    private List<Status> statusHistory;
-    private List<String> subjects;
-    private double[] coordinates;
-
-    @NotNull
-    private Point point;
-
-    private Place place;
-    private Person person;
-
     private Boolean reported = false;
     private List<Report> reports;
+
+    private PointPosition pointPosition;
+    private Tag tag;
 
     @JsonProperty("id")
     public String getTagId() {
@@ -122,12 +104,12 @@ public class ImgTag extends ResourceSupport {
         this.type = type;
     }
 
-    public Date getDate() {
-        return date;
+    public Date getDateCreated() {
+        return dateCreated;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setDateCreated(Date dateCreated) {
+        this.dateCreated = dateCreated;
     }
 
     public String getComment() {
@@ -146,57 +128,10 @@ public class ImgTag extends ResourceSupport {
         this.status = status;
     }
 
-    public List<Status> getStatusHistory() {
-        return statusHistory;
-    }
-
-    public void setStatusHistory(List<Status> statusHistory) {
-        this.statusHistory = statusHistory;
-    }
-
-    public List<String> getSubjects() {
-        return subjects;
-    }
-
-    public void setSubjects(List<String> subjects) {
-        this.subjects = subjects;
-    }
-
-    public double[] getCoordinates() {
-        return coordinates;
-    }
-
     /**
      * Coordinates must contain longitude and latitude with longitude in first position
      * @param double[] coordinates
      */
-    public void setCoordinates(double[] coordinates) {
-        this.coordinates = coordinates;
-    }
-
-    public Point getPoint() {
-        return point;
-    }
-
-    public void setPoint(Point point) {
-        this.point = point;
-    }
-
-    public Place getPlace() {
-        return place;
-    }
-
-    public void setPlace(Place place) {
-        this.place = place;
-    }
-
-    public Person getPerson() {
-        return person;
-    }
-
-    public void setPerson(Person person) {
-        this.person = person;
-    }
 
     public Boolean getReported() {
         return reported;
@@ -206,56 +141,12 @@ public class ImgTag extends ResourceSupport {
         this.reported = reported;
     }
 
-    @JsonIgnore
-    public double getLongitude() {
-        if (this.coordinates != null && this.coordinates.length == 2) {
-            return this.coordinates[0];
-        }
-        return 0;
-    }
-
-    @JsonIgnore
-    public double getLatitude() {
-        if (this.coordinates != null && this.coordinates.length == 2) {
-            return this.coordinates[1];
-        }
-        return 0;
-    }
-
     @Override
     public String toString() {
         return new ToStringBuilder(this, ToStringStyle.SIMPLE_STYLE)
                 .append("id", id).append("comment", comment)
-                .append("userId", userId).append("date", date)
+                .append("userId", userId).append("dateCreated", dateCreated)
                 .append("comment", comment).toString();
-    }
-
-    public String getSesamId() {
-        return sesamId;
-    }
-
-    public void setSesamId(String sesamId) {
-        this.sesamId = sesamId;
-    }
-
-    public String getTitle() {
-        if (this.person != null) {
-            return this.person.getFirstname() + " " + this.person.getSurname();
-        }
-        else if (this.place != null) {
-            return this.place.getName();
-        }
-        else if (this.point != null) {
-            return this.point.getDescription();
-
-        }
-        else {
-            return "";
-        }
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
     }
 
     public List<Report> getReports() {
@@ -266,10 +157,33 @@ public class ImgTag extends ResourceSupport {
         this.reports = reports;
     }
 
+    public Date getDateModified() {
+        return dateModified;
+    }
+
+    public void setDateModified(Date dateModified) {
+        this.dateModified = dateModified;
+    }
+
+    public PointPosition getPointPosition() {
+        return pointPosition;
+    }
+
+    public void setPointPosition(PointPosition pointPosition) {
+        this.pointPosition = pointPosition;
+    }
+
+    public Tag getTag() {
+        return tag;
+    }
+
+    public void setTag(Tag tag) {
+        this.tag = tag;
+    }
+
     public void mask() {
         this.reported = null;
         this.userEmail = null;
         this.status = null;
-        this.statusHistory = null;
     }
 }

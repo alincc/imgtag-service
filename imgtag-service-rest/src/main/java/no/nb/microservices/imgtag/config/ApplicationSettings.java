@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @ConfigurationProperties(prefix = "microservice")
 public class ApplicationSettings {
+
     private String nbsokContentUrl;
     private String fotoContentUrl;
 
