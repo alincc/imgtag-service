@@ -7,9 +7,6 @@
     <artifactId>imgtag-service-rest</artifactId>
     <packaging>jar</packaging>
 
-    <name>imgtag-service-rest</name>
-    <description>Manages the imgtags of photos</description>
-
     <parent>
         <groupId>no.nb.microservices.imgtag</groupId>
         <artifactId>imgtag-service</artifactId>

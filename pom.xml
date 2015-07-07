@@ -3,6 +3,8 @@
     <groupId>no.nb.microservices.imgtag</groupId>
     <artifactId>imgtag-service</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+    <name>imgtag-service-rest</name>
+    <description>Manages the image tags of photos in the catalog</description>
     <packaging>pom</packaging>
     <parent>
         <groupId>org.springframework.boot</groupId>
