@@ -16,6 +16,14 @@ public class RequestInfo {
     @Length(max = 160)
     private String comment;
 
+    public RequestInfo() {
+
+    }
+
+    public RequestInfo(String comment) {
+        this.comment = comment;
+    }
+
     public String getComment() {
         return comment;
     }

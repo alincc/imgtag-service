@@ -1,6 +1,8 @@
 package no.nb.microservices.imgtag.rest.controller;
 
-import no.nb.microservices.imgtag.model.*;
+import no.nb.microservices.imgtag.model.ImageTag;
+import no.nb.microservices.imgtag.model.ImageTagQuery;
+import no.nb.microservices.imgtag.model.RequestInfo;
 import no.nb.microservices.imgtag.repository.ImageTagRepository;
 import no.nb.microservices.imgtag.rest.assembler.ImageTagPage;
 import no.nb.microservices.imgtag.rest.assembler.ImageTagResourceAssembler;

@@ -2,9 +2,6 @@ package no.nb.microservices.imgtag.config;
 
 import com.mongodb.Mongo;
 import com.mongodb.MongoClient;
-import no.nb.microservices.imgtag.repository.ImageTagRepository;
-import no.nb.microservices.imgtag.service.ImageTagService;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.config.AbstractMongoConfiguration;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;

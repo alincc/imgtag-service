@@ -13,36 +13,24 @@ import de.flapdoodle.embed.mongo.config.MongodConfigBuilder;
 import de.flapdoodle.embed.mongo.config.Net;
 import de.flapdoodle.embed.mongo.distribution.Version;
 import de.flapdoodle.embed.process.runtime.Network;
-import jdk.nashorn.internal.objects.Global;
 import no.nb.microservices.imgtag.config.ApplicationSettings;
-import no.nb.microservices.imgtag.config.MockNBUserService;
-import no.nb.microservices.imgtag.config.MongoConfiguration;
 import no.nb.microservices.imgtag.config.WebConfig;
 import no.nb.microservices.imgtag.model.*;
-import no.nb.microservices.imgtag.repository.ImageTagRepository;
-import no.nb.microservices.imgtag.rest.assembler.ImageTagResourceAssembler;
-import no.nb.microservices.imgtag.rest.controller.ImageTagController;
-import no.nb.microservices.imgtag.rest.global.GlobalExceptionHandler;
-import no.nb.microservices.imgtag.service.ImageTagService;
 import no.nb.microservices.imgtag.service.NBUserService;
-import no.nb.nbsecurity.NBUserDetails;
 import org.hamcrest.Matchers;
 import org.hamcrest.core.Is;
-import org.junit.*;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.IntegrationTest;
-import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.config.AbstractMongoConfiguration;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.http.MediaType;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -56,18 +44,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import java.lang.reflect.Type;
 import java.net.UnknownHostException;
-import java.util.*;
-
-import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.notNullValue;
-import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import java.util.Date;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {Application.class})
@@ -175,7 +152,7 @@ public class ImageTagIntegrationTest {
         mockMvc.perform(MockMvcRequestBuilders.get("/imgtags/{tagid}", tag1.getTagId()))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.urn", Is.is("URN:NBN:no-nb_digifoto_20140228_00110_NB_WF_EDK_129152")))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.id", Is.is(tag1.getTagId())))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.tagId", Is.is(tag1.getTagId())))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.dateCreated", Matchers.notNullValue()));
 
         mockMvc.perform(MockMvcRequestBuilders.get("/imgtags/{tagid}", "dummyID"))
@@ -234,14 +211,14 @@ public class ImageTagIntegrationTest {
         mockMvc.perform(MockMvcRequestBuilders.get("/imgtags/{tagid}", tag1.getTagId()))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.urn", Is.is("URN:NBN:no-nb_digifoto_20140228_00110_NB_WF_EDK_129152")))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.id", Is.is(tag1.getTagId())))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.tagId", Is.is(tag1.getTagId())))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.userId").exists())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.dateCreated").exists());
 
         mockMvc.perform(MockMvcRequestBuilders.get("/imgtags"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$._embedded.imageTagList[0].urn").exists())
-                .andExpect(MockMvcResultMatchers.jsonPath("$._embedded.imageTagList[0].id").exists())
+                .andExpect(MockMvcResultMatchers.jsonPath("$._embedded.imageTagList[0].tagId").exists())
                 .andExpect(MockMvcResultMatchers.jsonPath("$._embedded.imageTagList[0].userId").exists())
                 .andExpect(MockMvcResultMatchers.jsonPath("$._embedded.imageTagList[0].dateCreated").exists());
     }

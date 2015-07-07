@@ -35,7 +35,12 @@ public class NBUserService {
                 LOG.error("Principal is not instance of " + NBUserDetails.class.getName() + " was - " + principal.getClass() + "( " + principal + " )");
             }
         }
-        return null;
+
+        List<GrantedAuthority> permissions = new ArrayList<GrantedAuthority>();
+        permissions.add(new SimpleGrantedAuthority("ROLE_USER"));
+        NBUserDetails nbUserDetails = new NBUserDetails("sessionID1234", UUID.fromString(USER_ID), "myusername", "mypassword", true, true, true, true, true, permissions);
+
+        return nbUserDetails;
     }
 }
 

@@ -37,7 +37,7 @@ public class ImageTagResourceAssembler implements ResourceAssembler<ImageTagPage
         Collection<ImageTag> resources = new ArrayList<ImageTag>();
         for(Object o : page.getContent()) {
             ImageTag imageTag = (ImageTag)o;
-            imageTag.add(linkTo(ImageTagController.class).slash(imageTag.getTagId()).withSelfRel());
+            imageTag.add(linkTo(methodOn(ImageTagController.class).findOne(imageTag.getTagId(), null)).withSelfRel());
             resources.add(imageTag);
         }
 

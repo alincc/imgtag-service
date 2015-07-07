@@ -1,6 +1,9 @@
 package no.nb.microservices.imgtag.model;
 
-import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.mysema.query.annotations.QueryEntity;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
@@ -20,15 +23,15 @@ import java.util.List;
  * Created by Andreas Bjørnådal (andreasb) on 19.08.14.
  */
 @XmlRootElement
-@Document(collection = "ImgTag")
-@JsonPropertyOrder({ "id" })
+@Document(collection = "ImageTag")
+@JsonPropertyOrder({ "tagId" })
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 @QueryEntity
 public class ImageTag extends ResourceSupport {
 
     @Id
-    private String id;
+    private String tagId;
 
     @Indexed
     @NotEmpty
@@ -55,13 +58,13 @@ public class ImageTag extends ResourceSupport {
     private PointPosition pointPosition;
     private Tag tag;
 
-    @JsonProperty("id")
+    @JsonProperty("tagId")
     public String getTagId() {
-        return id;
+        return tagId;
     }
 
-    public void setTagId(String id) {
-        this.id = id;
+    public void setTagId(String tagId) {
+        this.tagId = tagId;
     }
 
     public String getUserId() {
@@ -144,7 +147,7 @@ public class ImageTag extends ResourceSupport {
     @Override
     public String toString() {
         return new ToStringBuilder(this, ToStringStyle.SIMPLE_STYLE)
-                .append("id", id).append("comment", comment)
+                .append("tagId", tagId).append("comment", comment)
                 .append("userId", userId).append("dateCreated", dateCreated)
                 .append("comment", comment).toString();
     }
@@ -181,7 +184,12 @@ public class ImageTag extends ResourceSupport {
         this.tag = tag;
     }
 
+    public String getExpand() {
+        return "reports";
+    }
+
     public void mask() {
+        this.reports = null;
         this.reported = null;
         this.userEmail = null;
         this.status = null;

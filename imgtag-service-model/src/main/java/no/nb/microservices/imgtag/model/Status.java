@@ -27,6 +27,12 @@ public class Status {
     public Status() {
     }
 
+    public Status(String name) {
+        this.name = name;
+        this.date = new Date();
+        this.userId = "auto";
+    }
+
     public Status(String name, String comment) {
         this.name = name;
         this.comment = comment;

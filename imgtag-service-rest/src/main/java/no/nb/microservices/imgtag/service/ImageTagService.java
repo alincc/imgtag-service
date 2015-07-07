@@ -21,8 +21,6 @@ import java.util.Date;
 import java.util.NoSuchElementException;
 import java.util.UUID;
 
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
-
 /**
  * Created by andreasb on 26.06.15.
  */
@@ -43,7 +41,7 @@ public class ImageTagService implements IImageTagService {
     @Override
     public Page<ImageTag> query(ImageTagQuery imageTagQuery, int page, int size, String[] expand) {
 
-        QImageTag t = new QImageTag("ImageTag");
+        QImageTag t = QImageTag.imageTag;
         BooleanExpression query = t.urn.isNotNull();
 
         if (StringUtils.isNotBlank(imageTagQuery.getUrn())) {
@@ -64,7 +62,7 @@ public class ImageTagService implements IImageTagService {
             query = query.and(t.reported.eq(imageTagQuery.getReported()));
         }
 
-        PageRequest pageRequest = new PageRequest(page, size, new Sort(Sort.Direction.DESC, "date"));
+        PageRequest pageRequest = new PageRequest(page, size, new Sort(Sort.Direction.DESC, "dateModified"));
         Page<ImageTag> pages = imageTagRepository.findAll(query, pageRequest);
 
         if (pages != null && (nbUserService.getNBUser() == null || !nbUserService.getNBUser().getAuthorities().contains(new SimpleGrantedAuthority(Constants.ADMIN_ROLE)))) {

@@ -1,7 +1,5 @@
 package no.nb.microservices.imgtag.model;
 
-import org.springframework.web.bind.annotation.RequestParam;
-
 /**
  * Created by andreasb on 26.06.15.
  */

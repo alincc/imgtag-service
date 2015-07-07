@@ -1,13 +1,6 @@
 package no.nb.microservices.imgtag.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.mysema.query.annotations.QueryEntity;
-import org.springframework.data.mongodb.core.mapping.Document;
-
-import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * Created by Andreas Bjørnådal (andreasb) on 19.08.14.
