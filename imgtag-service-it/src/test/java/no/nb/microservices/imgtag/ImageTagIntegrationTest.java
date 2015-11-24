@@ -121,14 +121,14 @@ public class ImageTagIntegrationTest {
         });
         Gson gson = builder.create();
 
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/imgtags")
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/v1/imgtags")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(mapper.convertValue(imgtag1, JsonNode.class).toString()))
                 .andExpect(MockMvcResultMatchers.status().isCreated()).andReturn();
 
         ImageTag tag1 = gson.fromJson(result.getResponse().getContentAsString(), ImageTag.class);
 
-        result = mockMvc.perform(MockMvcRequestBuilders.post("/imgtags")
+        result = mockMvc.perform(MockMvcRequestBuilders.post("/v1/imgtags")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(mapper.convertValue(imgtag2, JsonNode.class).toString()))
                 .andExpect(MockMvcResultMatchers.status().isCreated()).andReturn();
@@ -136,86 +136,86 @@ public class ImageTagIntegrationTest {
         ImageTag tag2 = gson.fromJson(result.getResponse().getContentAsString(), ImageTag.class);
 
         // Test get
-        mockMvc.perform(MockMvcRequestBuilders.get("/imgtags"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/v1/imgtags"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$._embedded.imageTagList", Matchers.hasSize(2)));
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/imgtags")
+        mockMvc.perform(MockMvcRequestBuilders.get("/v1/imgtags")
                 .param("urn", "URN:NBN:no-nb_digifoto_20140228_00110_NB_WF_EDK_129152"))
                 .andExpect(MockMvcResultMatchers.status().isOk());
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/imgtags")
+        mockMvc.perform(MockMvcRequestBuilders.get("/v1/imgtags")
                 .param("urn", "dummyURN"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.page.totalElements", Is.is(0)));;
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/imgtags/{tagid}", tag1.getTagId()))
+        mockMvc.perform(MockMvcRequestBuilders.get("/v1/imgtags/{tagid}", tag1.getTagId()))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.urn", Is.is("URN:NBN:no-nb_digifoto_20140228_00110_NB_WF_EDK_129152")))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.tagId", Is.is(tag1.getTagId())))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.dateCreated", Matchers.notNullValue()));
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/imgtags/{tagid}", "dummyID"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/v1/imgtags/{tagid}", "dummyID"))
                 .andExpect(MockMvcResultMatchers.status().isNotFound());
 
         // Test reported
-        mockMvc.perform(MockMvcRequestBuilders.get("/imgtags/{tagid}", tag1.getTagId()))
+        mockMvc.perform(MockMvcRequestBuilders.get("/v1/imgtags/{tagid}", tag1.getTagId()))
                 .andExpect(MockMvcResultMatchers.status().isOk());
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/imgtags/{tagid}/report", "dummyid")
+        mockMvc.perform(MockMvcRequestBuilders.post("/v1/imgtags/{tagid}/report", "dummyid")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"comment\": \"I report this in the name of the king!\"}"))
                 .andExpect(MockMvcResultMatchers.status().isNotFound());
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/imgtags/{tagid}/report", tag1.getTagId())
+        mockMvc.perform(MockMvcRequestBuilders.post("/v1/imgtags/{tagid}/report", tag1.getTagId())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"comment\": \"\"}"))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest());
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/imgtags/{tagid}/report", tag1.getTagId())
+        mockMvc.perform(MockMvcRequestBuilders.post("/v1/imgtags/{tagid}/report", tag1.getTagId())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"comment\": \"I report this in the name of the king!\"}"))
                 .andExpect(MockMvcResultMatchers.status().isOk());
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/imgtags/{tagid}", tag1.getTagId()))
+        mockMvc.perform(MockMvcRequestBuilders.get("/v1/imgtags/{tagid}", tag1.getTagId()))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.reported", Is.is(true)));
 
         // Test delete
-        mockMvc.perform(MockMvcRequestBuilders.delete("/imgtags/{tagid}", "dummyID")
+        mockMvc.perform(MockMvcRequestBuilders.delete("/v1/imgtags/{tagid}", "dummyID")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"comment\": \"This is a dummy tag\"}"))
                 .andExpect(MockMvcResultMatchers.status().isNotFound());
 
-        mockMvc.perform(MockMvcRequestBuilders.delete("/imgtags/{tagid}", tag1.getTagId())
+        mockMvc.perform(MockMvcRequestBuilders.delete("/v1/imgtags/{tagid}", tag1.getTagId())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"comment\": \"This is a OK tag!\"}"))
                 .andExpect(MockMvcResultMatchers.status().isOk());
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/imgtags/{tagid}", tag1.getTagId()))
+        mockMvc.perform(MockMvcRequestBuilders.get("/v1/imgtags/{tagid}", tag1.getTagId()))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.status.name", Is.is("deleted")));
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/imgtags"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/v1/imgtags"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$._embedded.imageTagList", Matchers.hasSize(2)));
 
         // Put imgtag back into database
-        result = mockMvc.perform(MockMvcRequestBuilders.post("/imgtags")
+        result = mockMvc.perform(MockMvcRequestBuilders.post("/v1/imgtags")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(mapper.convertValue(imgtag1, JsonNode.class).toString()))
                 .andExpect(MockMvcResultMatchers.status().isCreated()).andReturn();
 
         tag1 = gson.fromJson(result.getResponse().getContentAsString(), ImageTag.class);
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/imgtags/{tagid}", tag1.getTagId()))
+        mockMvc.perform(MockMvcRequestBuilders.get("/v1/imgtags/{tagid}", tag1.getTagId()))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.urn", Is.is("URN:NBN:no-nb_digifoto_20140228_00110_NB_WF_EDK_129152")))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.tagId", Is.is(tag1.getTagId())))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.userId").exists())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.dateCreated").exists());
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/imgtags"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/v1/imgtags"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$._embedded.imageTagList[0].urn").exists())
                 .andExpect(MockMvcResultMatchers.jsonPath("$._embedded.imageTagList[0].tagId").exists())

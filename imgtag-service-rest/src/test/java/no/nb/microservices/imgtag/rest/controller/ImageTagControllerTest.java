@@ -50,7 +50,7 @@ public class ImageTagControllerTest {
 
     @Test
     public void helloWorldTest() throws Exception{
-        mockMvc.perform(get("/imgtags"))
+        mockMvc.perform(get("/v1/imgtags"))
                 .andExpect(status().isOk());
     }
 

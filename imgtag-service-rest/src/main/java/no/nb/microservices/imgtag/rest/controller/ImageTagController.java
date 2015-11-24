@@ -30,6 +30,7 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
  * Created by Andreas Bjørnådal (andreasb) on 19.08.14.
  */
 @RestController
+@RequestMapping("/v1")
 public class ImageTagController {
 
     final Logger LOG = LoggerFactory.getLogger(ImageTagController.class);
@@ -61,7 +62,7 @@ public class ImageTagController {
         ImageTag savedTag = imgTagService.save(imageTag);
 
         HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(new UriTemplate("/imgtags/{imgtagid}").expand(savedTag.getTagId()));
+        headers.setLocation(new UriTemplate("/v1/imgtags/{imgtagid}").expand(savedTag.getTagId()));
 
         return new ResponseEntity<ImageTag>(savedTag, HttpStatus.CREATED);
     }
