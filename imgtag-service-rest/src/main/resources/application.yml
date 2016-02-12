@@ -3,40 +3,16 @@ info:
     name: imgtag-service
     description: Manages the imgtags of photos
 
-endpoints:
-  restart:
-    enabled: true
-  refresh:
-    enabled: true
-
 server:
-  port: 8050
+  port: 0
 
-spring: 
+spring:
   data:
     mongodb:
       host: localhost
       port: 27017
       database: local
 
-eureka:
-  instance:
-    preferIpAddress: true
-  client:
-    serviceUrl:
-      defaultZone: http://localhost:8761/eureka/
-
 microservice:
   nbsokContentUrl: http://www.nb.no/nbsok/nb/{sesamid}
   fotoContentUrl: http://www.nb.no/foto/nb/{sesamid}
-
----
-spring:
-    profiles: docker
-
-eureka:
-  instance:
-    preferIpAddress: true
-  client:
-    serviceUrl:
-      defaultZone: http://discovery:8761/eureka/
