@@ -4,7 +4,7 @@ info:
     description: Manages the imgtags of photos
 
 server:
-  port: 0
+  port: 8025
 
 spring:
   data:
